@@ -13,13 +13,13 @@
 
 В рамках задания необходимо форкнуть репозиторий и разработать код, который объединит два рейтинга и построит следующие витрины:
 
-- Процент вакцинированных в стране (people_fully_vaccinated_per_hundred) в зависимости от места в рейтинге (Overall_rank), отсортировать по месту
-- Процент вакцинированных в стране (people_fully_vaccinated_per_hundred) в зависимости от ВВП (GDP_per_capita), отсортировать по ВВП
-- Процент вакцинированных в стране (people_fully_vaccinated_per_hundred) в зависимости от продолжительности жизни, (Healthy_life_expectancy) отсортировать по продолжительности жизни
-- Процент вакцинированных в стране (people_fully_vaccinated_per_hundred) в зависимости от Freedom_to_make_life_choices, отсортировать по Freedom_to_make_life_choices
-- Процент вакцинированных в стране (people_fully_vaccinated_per_hundred) в зависимости от Perceptions_of_corruption, отсортировать по Perceptions_of_corruption
+- vaccines_by_rank - Процент вакцинированных в стране (people_fully_vaccinated_per_hundred) в зависимости от места в рейтинге (Overall_rank), отсортировать по месту
+- vaccines_by_gdp - Процент вакцинированных в стране (people_fully_vaccinated_per_hundred) в зависимости от ВВП (GDP_per_capita), отсортировать по ВВП
+- vaccines_by_healthy - Процент вакцинированных в стране (people_fully_vaccinated_per_hundred) в зависимости от продолжительности жизни, (Healthy_life_expectancy) отсортировать по продолжительности жизни
+- vaccines_by_freedom - Процент вакцинированных в стране (people_fully_vaccinated_per_hundred) в зависимости от Freedom_to_make_life_choices, отсортировать по Freedom_to_make_life_choices
+- vaccines_by_corruption - Процент вакцинированных в стране (people_fully_vaccinated_per_hundred) в зависимости от Perceptions_of_corruption, отсортировать по Perceptions_of_corruption
 
 Также в данных возможны ошибки, надо построить 2 витрины с ошибками объединения отчетов.
-- Таблица со странами, по которым есть рейтинг счастья, но нет данных по вакцинации.
-- Таблица со странами, по которым есть данные по вакцинации, но нет рейтинга счастья.
+- error_vactines_county - Таблица со странами, по которым есть рейтинг счастья, но нет данных по вакцинации.
+- error_happiness_county - Таблица со странами, по которым есть данные по вакцинации, но нет рейтинга счастья.
 
