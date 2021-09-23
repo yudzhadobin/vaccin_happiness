@@ -24,10 +24,6 @@ object Main extends App with LazyLogging {
 
   logger.info("BusinessLayer is successfully run")
 
-  BusinessLayer.run()
-
-  logger.info("BusinessLayer is successfully run")
-
   MartLayer.run()
 
   logger.info("MartLayer is successfully run")
