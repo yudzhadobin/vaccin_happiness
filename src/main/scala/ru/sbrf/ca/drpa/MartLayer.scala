@@ -3,9 +3,7 @@ package ru.sbrf.ca.drpa
 import org.apache.spark.sql.expressions.Window
 import org.apache.spark.sql.functions.{col, row_number}
 import org.apache.spark.sql.{SaveMode, SparkSession}
-/***
- * Слой предназначен для расчета и сохранения выходных витрин
- */
+
 object MartLayer {
 
   def run()(implicit session: SparkSession): Unit = {
@@ -14,11 +12,9 @@ object MartLayer {
     val country_vaccinations_by_manufacturer = session.sql("SELECT * FROM country_vaccinations_by_manufacturer")
 
     val country_date_window_spec = Window.partitionBy("location").orderBy(col("date").desc)
-
     val latest_country_vaccinations_by_manufacturer =
       country_vaccinations_by_manufacturer
         .withColumn("row_num", row_number().over(country_date_window_spec)).filter(col("row_num") === 1).drop("row_num")
-
 
     val total_vaccinations_by_manufacturer =
       latest_country_vaccinations_by_manufacturer
@@ -28,7 +24,7 @@ object MartLayer {
           col("vaccine"),
           col("sum(total_vaccinations)").alias("total")
         ).sort(col("total").desc)
-
+    total_vaccinations_by_manufacturer.show()
     total_vaccinations_by_manufacturer.write.mode(SaveMode.Overwrite).saveAsTable("total_vaccinations_by_manufacturer")
 
   }
