@@ -7,7 +7,8 @@ import org.apache.spark.sql.{SaveMode, SparkSession}
 object MartLayer {
 
   def run()(implicit session: SparkSession): Unit = {
-    val happiness_df = session.sql("SELECT * FROM happiness_2019")
+    val main = session.sql("SELECT * FROM happiness_2019 h join country_vaccinations cv on h.Country_or_region = cv.xcountry")
+    main.select(col("people_fully_vaccinated_per_hundred"), col("Overall_rank")).sort(col("Overall_rank").desc).show()
     val country_vaccinations = session.sql("SELECT * FROM country_vaccinations")
     val country_vaccinations_by_manufacturer = session.sql("SELECT * FROM country_vaccinations_by_manufacturer")
 
@@ -24,8 +25,7 @@ object MartLayer {
           col("vaccine"),
           col("sum(total_vaccinations)").alias("total")
         ).sort(col("total").desc)
-    total_vaccinations_by_manufacturer.show()
     total_vaccinations_by_manufacturer.write.mode(SaveMode.Overwrite).saveAsTable("total_vaccinations_by_manufacturer")
-
   }
+
 }

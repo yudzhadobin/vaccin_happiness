@@ -16,7 +16,6 @@ class DataLoader extends LazyLogging {
       .option("header", true)
       .option("inferSchema", "true")
       .csv(path)
-    //df.show()
 
     df.write.mode(SaveMode.Overwrite).saveAsTable(tableName)
   }
