@@ -16,10 +16,7 @@ class DataLoader extends LazyLogging {
       .option("header", true)
       .option("inferSchema", "true")
       .csv(path)
-    logger.info(s"File path: $path is loaded")
-    df.show()
 
     df.write.mode(SaveMode.Overwrite).saveAsTable(tableName)
-    logger.info(s"Table: $tableName is created")
   }
 }
