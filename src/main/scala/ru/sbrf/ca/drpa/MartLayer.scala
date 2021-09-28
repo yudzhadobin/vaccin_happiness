@@ -8,12 +8,14 @@ object MartLayer {
 
   def run()(implicit session: SparkSession): Unit = {
     val main = session.sql("SELECT * FROM happiness_2019 h join country_vaccinations cv on h.Country_or_region = cv.xcountry")
+    val window_newest_data = Window.partitionBy("xcountry").orderBy(col("date").desc)
+    val last = main.withColumn("rn", row_number().over(window_newest_data)).filter(col("rn") === 1).drop("rn")
 
-    val vaccines_by_rank = main.select(col("people_fully_vaccinated_per_hundred"), col("Overall_rank")).sort(col("Overall_rank"))
-    val vaccines_by_gdp = main.select(col("people_fully_vaccinated_per_hundred"), col("GDP_per_capita")).sort(col("GDP_per_capita"))
-    val vaccines_by_healthy = main.select(col("people_fully_vaccinated_per_hundred"), col("Healthy_life_expectancy")).sort(col("Healthy_life_expectancy"))
-    val vaccines_by_freedom = main.select(col("people_fully_vaccinated_per_hundred"), col("Freedom_to_make_life_choices")).sort(col("Freedom_to_make_life_choices"))
-    val vaccines_by_corruption = main.select(col("people_fully_vaccinated_per_hundred"), col("Perceptions_of_corruption")).sort(col("Perceptions_of_corruption"))
+    val vaccines_by_rank = last.select(col("xcountry"), col("people_fully_vaccinated_per_hundred"), col("Overall_rank")).sort(col("Overall_rank"))
+    val vaccines_by_gdp = last.select(col("xcountry"), col("people_fully_vaccinated_per_hundred"), col("GDP_per_capita")).sort(col("GDP_per_capita"))
+    val vaccines_by_healthy = last.select(col("xcountry"), col("people_fully_vaccinated_per_hundred"), col("Healthy_life_expectancy")).sort(col("Healthy_life_expectancy"))
+    val vaccines_by_freedom = last.select(col("xcountry"), col("people_fully_vaccinated_per_hundred"), col("Freedom_to_make_life_choices")).sort(col("Freedom_to_make_life_choices"))
+    val vaccines_by_corruption = last.select(col("xcountry"), col("people_fully_vaccinated_per_hundred"), col("Perceptions_of_corruption")).sort(col("Perceptions_of_corruption"))
 
     val error_vaccines_country = session.sql("SELECT distinct Country_or_region FROM happiness_2019 where Country_or_region not in (select xcountry from country_vaccinations)")
     val error_happiness_country = session.sql("SELECT distinct xcountry FROM country_vaccinations where xcountry not in (select Country_or_region from happiness_2019)")
